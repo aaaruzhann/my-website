@@ -26,6 +26,7 @@
             color: #333;
             min-height: 100vh;
             transition: background 1.5s ease;
+            overflow-x: hidden;
         }
         
         .container {
@@ -39,6 +40,39 @@
             padding: 20px 0;
             color: white;
             text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.3);
+            position: relative;
+        }
+        
+        .city-image {
+            width: 100%;
+            height: 300px;
+            border-radius: 15px;
+            margin: 20px 0;
+            overflow: hidden;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+            position: relative;
+        }
+        
+        .city-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+        
+        .city-image:hover img {
+            transform: scale(1.05);
+        }
+        
+        .image-overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: rgba(0, 0, 0, 0.5);
+            color: white;
+            padding: 15px;
+            text-align: center;
         }
         
         h1 {
@@ -93,6 +127,70 @@
             display: flex;
             flex-direction: column;
             align-items: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .weather-animation {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+        }
+        
+        .sun {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            width: 60px;
+            height: 60px;
+            background: #FFD700;
+            border-radius: 50%;
+            box-shadow: 0 0 30px #FFA500;
+            animation: pulse 3s infinite alternate;
+        }
+        
+        .cloud {
+            position: absolute;
+            background: white;
+            border-radius: 50%;
+            opacity: 0.8;
+        }
+        
+        .cloud-1 {
+            top: 30px;
+            left: 10%;
+            width: 40px;
+            height: 20px;
+            animation: moveCloud 20s linear infinite;
+        }
+        
+        .cloud-2 {
+            top: 50px;
+            left: 30%;
+            width: 60px;
+            height: 30px;
+            animation: moveCloud 25s linear infinite;
+        }
+        
+        .rain {
+            position: absolute;
+            width: 2px;
+            height: 10px;
+            background: #87CEEB;
+            opacity: 0.6;
+        }
+        
+        .snow {
+            position: absolute;
+            width: 5px;
+            height: 5px;
+            background: white;
+            border-radius: 50%;
+            opacity: 0.8;
         }
         
         .location-time {
@@ -100,6 +198,7 @@
             justify-content: space-between;
             width: 100%;
             margin-bottom: 20px;
+            z-index: 1;
         }
         
         .location {
@@ -118,6 +217,7 @@
             justify-content: center;
             margin-bottom: 20px;
             width: 100%;
+            z-index: 1;
         }
         
         .weather-icon {
@@ -135,6 +235,7 @@
             grid-template-columns: repeat(4, 1fr);
             gap: 15px;
             width: 100%;
+            z-index: 1;
         }
         
         .detail-card {
@@ -142,6 +243,11 @@
             border-radius: 10px;
             padding: 15px;
             text-align: center;
+            transition: transform 0.3s ease;
+        }
+        
+        .detail-card:hover {
+            transform: translateY(-5px);
         }
         
         .detail-value {
@@ -162,6 +268,7 @@
             margin-top: 20px;
             padding-top: 20px;
             border-top: 1px solid #eee;
+            z-index: 1;
         }
         
         .sun-time {
@@ -234,6 +341,11 @@
             border-radius: 10px;
             padding: 15px;
             text-align: center;
+            transition: transform 0.3s ease;
+        }
+        
+        .nature-card:hover {
+            transform: translateY(-5px);
         }
         
         .nature-icon {
@@ -247,6 +359,29 @@
             color: white;
             font-size: 0.9rem;
             opacity: 0.8;
+        }
+        
+        /* Анимациялар */
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            100% { transform: scale(1.1); }
+        }
+        
+        @keyframes moveCloud {
+            0% { transform: translateX(-100px); }
+            100% { transform: translateX(1200px); }
+        }
+        
+        @keyframes rainFall {
+            0% { transform: translateY(-10px); opacity: 0; }
+            10% { opacity: 1; }
+            100% { transform: translateY(100px); opacity: 0; }
+        }
+        
+        @keyframes snowFall {
+            0% { transform: translateY(-10px) rotate(0deg); opacity: 0; }
+            10% { opacity: 1; }
+            100% { transform: translateY(100px) rotate(360deg); opacity: 0; }
         }
         
         @media (max-width: 768px) {
@@ -272,6 +407,10 @@
                 padding: 8px 15px;
                 font-size: 0.9rem;
             }
+            
+            .city-image {
+                height: 200px;
+            }
         }
     </style>
 </head>
@@ -281,6 +420,14 @@
             <h1>Алматы - Ауа-райы</h1>
             <p class="subtitle">Табиғат пен мезгілдер</p>
         </header>
+        
+        <div class="city-image">
+            <img src="https://images.unsplash.com/photo-1622627418593-7b4dffa0e79f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1200&q=80" alt="Алматы қаласы">
+            <div class="image-overlay">
+                <h3>Алматы - Қазақстанның оңтүстік астанасы</h3>
+                <p>Әлемдік деңгейдегі қала, табиғи сұлулықпен қоршалған</p>
+            </div>
+        </div>
         
         <div class="season-buttons">
             <button class="season-btn active" data-season="spring">
@@ -298,6 +445,10 @@
         </div>
         
         <section class="current-weather">
+            <div class="weather-animation" id="weather-animation">
+                <!-- Ауа-райы анимациясы осы жерде болады -->
+            </div>
+            
             <div class="location-time">
                 <div class="location">Алматы, Қазақстан</div>
                 <div class="time" id="current-time">Жүктелуде...</div>
@@ -440,6 +591,7 @@
                 wind.textContent = `${5 + Math.floor(Math.random() * 10)} км/сағ`;
                 pressure.textContent = `${1015 + Math.floor(Math.random() * 10)} гПа`;
                 visibility.textContent = `${8 + Math.floor(Math.random() * 7)} км`;
+                createNightAnimation();
             } 
             // Таңертең
             else if (hour >= 6 && hour < 12) {
@@ -449,6 +601,7 @@
                 wind.textContent = `${8 + Math.floor(Math.random() * 10)} км/сағ`;
                 pressure.textContent = `${1012 + Math.floor(Math.random() * 8)} гПа`;
                 visibility.textContent = `${10 + Math.floor(Math.random() * 5)} км`;
+                createSunnyAnimation();
             } 
             // Түс
             else if (hour >= 12 && hour < 18) {
@@ -458,6 +611,7 @@
                 wind.textContent = `${10 + Math.floor(Math.random() * 10)} км/сағ`;
                 pressure.textContent = `${1010 + Math.floor(Math.random() * 8)} гПа`;
                 visibility.textContent = `${12 + Math.floor(Math.random() * 8)} км`;
+                createSunnyAnimation();
             } 
             // Кеш
             else {
@@ -467,6 +621,127 @@
                 wind.textContent = `${7 + Math.floor(Math.random() * 8)} км/сағ`;
                 pressure.textContent = `${1013 + Math.floor(Math.random() * 7)} гПа`;
                 visibility.textContent = `${9 + Math.floor(Math.random() * 6)} км`;
+                createSunsetAnimation();
+            }
+        }
+        
+        // Ауа-райы анимацияларын жасау
+        function createSunnyAnimation() {
+            const animationContainer = document.getElementById('weather-animation');
+            animationContainer.innerHTML = '';
+            
+            // Күн
+            const sun = document.createElement('div');
+            sun.className = 'sun';
+            animationContainer.appendChild(sun);
+            
+            // Бұлттар
+            for (let i = 0; i < 3; i++) {
+                const cloud = document.createElement('div');
+                cloud.className = `cloud cloud-${i+1}`;
+                animationContainer.appendChild(cloud);
+            }
+        }
+        
+        function createNightAnimation() {
+            const animationContainer = document.getElementById('weather-animation');
+            animationContainer.innerHTML = '';
+            
+            // Жұлдыздар
+            for (let i = 0; i < 20; i++) {
+                const star = document.createElement('div');
+                star.style.position = 'absolute';
+                star.style.width = '2px';
+                star.style.height = '2px';
+                star.style.background = 'white';
+                star.style.borderRadius = '50%';
+                star.style.top = `${Math.random() * 100}%`;
+                star.style.left = `${Math.random() * 100}%`;
+                star.style.animation = `pulse ${2 + Math.random() * 3}s infinite alternate`;
+                animationContainer.appendChild(star);
+            }
+            
+            // Ай
+            const moon = document.createElement('div');
+            moon.style.position = 'absolute';
+            moon.style.top = '20px';
+            moon.style.right = '20px';
+            moon.style.width = '50px';
+            moon.style.height = '50px';
+            moon.style.background = '#F5F5DC';
+            moon.style.borderRadius = '50%';
+            moon.style.boxShadow = '0 0 20px #F5F5DC';
+            animationContainer.appendChild(moon);
+        }
+        
+        function createSunsetAnimation() {
+            const animationContainer = document.getElementById('weather-animation');
+            animationContainer.innerHTML = '';
+            
+            // Күн батуы
+            const sunset = document.createElement('div');
+            sunset.style.position = 'absolute';
+            sunset.style.top = '20px';
+            sunset.style.right = '20px';
+            sunset.style.width = '60px';
+            sunset.style.height = '60px';
+            sunset.style.background = 'linear-gradient(to bottom, #FF4500, #FF8C00)';
+            sunset.style.borderRadius = '50%';
+            sunset.style.boxShadow = '0 0 30px #FF4500';
+            animationContainer.appendChild(sunset);
+            
+            // Бұлттар
+            for (let i = 0; i < 2; i++) {
+                const cloud = document.createElement('div');
+                cloud.className = `cloud cloud-${i+1}`;
+                cloud.style.background = 'linear-gradient(to bottom, #FFA07A, #FF7F50)';
+                animationContainer.appendChild(cloud);
+            }
+        }
+        
+        function createRainAnimation() {
+            const animationContainer = document.getElementById('weather-animation');
+            animationContainer.innerHTML = '';
+            
+            // Жаңбыр
+            for (let i = 0; i < 30; i++) {
+                const rain = document.createElement('div');
+                rain.className = 'rain';
+                rain.style.left = `${Math.random() * 100}%`;
+                rain.style.animation = `rainFall ${1 + Math.random()}s linear infinite`;
+                rain.style.animationDelay = `${Math.random() * 2}s`;
+                animationContainer.appendChild(rain);
+            }
+            
+            // Бұлттар
+            for (let i = 0; i < 3; i++) {
+                const cloud = document.createElement('div');
+                cloud.className = `cloud cloud-${i+1}`;
+                cloud.style.background = '#708090';
+                animationContainer.appendChild(cloud);
+            }
+        }
+        
+        function createSnowAnimation() {
+            const animationContainer = document.getElementById('weather-animation');
+            animationContainer.innerHTML = '';
+            
+            // Қар
+            for (let i = 0; i < 25; i++) {
+                const snow = document.createElement('div');
+                snow.className = 'snow';
+                snow.style.left = `${Math.random() * 100}%`;
+                snow.style.animation = `snowFall ${3 + Math.random() * 5}s linear infinite`;
+                snow.style.animationDelay = `${Math.random() * 5}s`;
+                animationContainer.appendChild(snow);
+            }
+            
+            // Бұлттар
+            for (let i = 0; i < 3; i++) {
+                const cloud = document.createElement('div');
+                cloud.className = `cloud cloud-${i+1}`;
+                cloud.style.background = '#D3D3D3';
+                animationContainer.appendChild(cloud);
             }
         }
         
@@ -497,7 +772,14 @@
                             break;
                         case 'winter':
                             body.style.background = 'var(--winter-bg)';
+                            // Қыс мезгілінде қар анимациясын қосу
+                            createSnowAnimation();
                             break;
+                    }
+                    
+                    // Әр мезгілге сәйкес ауа-райы анимациясын қосу
+                    if (season === 'autumn') {
+                        createRainAnimation();
                     }
                 });
             });
@@ -534,15 +816,32 @@
                 // Күз (Қыркүйек-Қараша)
                 body.style.background = 'var(--autumn-bg)';
                 seasonButtons[2].classList.add('active');
+                createRainAnimation();
             } else {
                 // Қыс (Желтоқсан-Ақпан)
                 body.style.background = 'var(--winter-bg)';
                 seasonButtons[3].classList.add('active');
+                createSnowAnimation();
             }
         }
         
         // Бастапқы фонды орнату
         setInitialBackground();
+        
+        // Кездейсоқ ауа-райы жағдайларын қосу
+        function addRandomWeatherEffects() {
+            const effects = [createSunnyAnimation, createRainAnimation, createSnowAnimation];
+            const randomEffect = effects[Math.floor(Math.random() * effects.length)];
+            
+            // Әр 30 секунд сайын кездейсоқ әсер қосу
+            setInterval(() => {
+                if (Math.random() > 0.7) { // 30% ықтималдық
+                    randomEffect();
+                }
+            }, 30000);
+        }
+        
+        addRandomWeatherEffects();
     </script>
 </body>
 </html>
